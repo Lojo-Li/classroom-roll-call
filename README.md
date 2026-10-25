@@ -289,30 +289,35 @@ const IMAGE_EXTENSION = /\.(jpe?g|png|webp)$/i;
 
 如果增加新格式，同时需要更新 `index.html` 中文件输入框的 `accept` 属性。
 
-## GitHub Pages 发布
+## 从 GitHub 获取项目
 
-本项目是纯静态页面，可以直接使用 GitHub Pages 发布。
+GitHub 仓库用于保存和分享源码，不会像网页服务器一样直接运行 `index.html`。在仓库文件页面点击 `index.html` 时，浏览器显示的是源代码，而不是点名器页面。
 
-发布步骤：
+使用项目的正确步骤：
 
-1. 把 `index.html`、`style.css`、`script.js`、`README.md` 和 `docs/` 上传到 GitHub 仓库。
-2. 打开仓库的 `Settings`。
-3. 进入 `Pages`。
-4. 在 `Build and deployment` 中选择 `Deploy from a branch`。
-5. 分支选择 `main`，目录选择 `/ (root)`。
-6. 保存后等待 GitHub 完成发布。
+1. 打开 GitHub 仓库首页。
+2. 点击绿色的 `Code` 按钮。
+3. 点击 `Download ZIP`。
+4. 把下载的 ZIP 文件解压到电脑上的任意目录。
+5. 确认 `index.html`、`style.css` 和 `script.js` 位于同一个文件夹中。
+6. 使用最新版 Chrome 或 Edge 双击 `index.html`。
+7. 点击“选择班级文件夹”导入自己的学生照片。
 
-发布地址通常为：
+项目不依赖后端、数据库、API、外部 CDN 或构建工具。下载后的项目不需要启动服务器，也不需要执行安装命令。
+
+如果下载后页面没有样式或按钮无法工作，请先确认解压目录中同时存在以下文件：
 
 ```text
-https://你的用户名.github.io/仓库名/
+index.html
+style.css
+script.js
 ```
 
-GitHub Pages 发布后仍然不需要服务器或数据库。访问网页的老师依旧需要在自己的电脑上主动选择照片文件夹，照片不会因为网站部署而离开本机。
+不要只下载 `index.html`，否则页面会缺少样式和交互逻辑。
 
 ## 验收清单
 
-发布或使用前可按以下项目检查：
+上传仓库或日常使用前可按以下项目检查：
 
 - [ ] 双击 `index.html` 可以直接打开页面。
 - [ ] 未选择照片时会加载 8 位示例同学。
@@ -378,7 +383,7 @@ GitHub Pages 发布后仍然不需要服务器或数据库。访问网页的老�
 
 ## 素材与许可
 
-代码仓库可以只包含 `index.html`、`style.css`、`script.js`、`README.md` 和 `docs/`。
+代码仓库可以只包含 `index.html`、`style.css`、`script.js`、`README.md` 和 `preview.png`。
 
 仓库中的学生照片、角色图片或其他本地演示素材不应默认公开上传。公开前请确认图片的使用权和分发权，尤其是游戏角色、影视角色、学生肖像和第三方摄影作品。
 
@@ -390,7 +395,7 @@ GitHub Pages 发布后仍然不需要服务器或数据库。访问网页的老�
 
 - 使用的浏览器和版本。
 - 操作系统。
-- 是否通过 `file://` 直接打开或使用 GitHub Pages。
+- 是否通过双击 `index.html` 直接打开。
 - 照片数量、格式和文件命名方式。
 - 可复现问题的具体操作步骤。
 
