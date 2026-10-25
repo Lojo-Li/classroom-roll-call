@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#131417">
+  <title>课堂照片随机点名器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="brand-copy">
+          <p>CLASSROOM ROLL CALL</p>
+          <h1>照片随机点名器</h1>
+        </div>
+      </div>
+
+      <div class="source-tools">
+        <button class="folder-button" id="folderButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3.75 6.75h6l1.5 2.25h9v8.25a2 2 0 0 1-2 2H5.75a2 2 0 0 1-2-2V6.75Z"></path>
+            <path d="M3.75 6.75v-1a2 2 0 0 1 2-2h3.5l1.5 2h5.5a2 2 0 0 1 2 2v1.25"></path>
+          </svg>
+          <span>选择班级文件夹</span>
+        </button>
+        <input
+          id="folderInput"
+          type="file"
+          webkitdirectory
+          directory
+          multiple
+          accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+          hidden
+        >
+        <div class="load-state" aria-live="polite">
+          <span class="state-light" aria-hidden="true"></span>
+          <span id="loadStatus">示例名单 · 已加载 8 位同学</span>
+        </div>
+      </div>
+
+      <div class="mode-panel">
+        <span class="mode-label">动画</span>
+        <div class="mode-switch" role="group" aria-label="选择动画风格">
+          <button class="mode-button is-active" type="button" data-mode="scroll" aria-pressed="true">滚动</button>
+          <button class="mode-button" type="button" data-mode="flip" aria-pressed="false">翻牌</button>
+          <button class="mode-button" type="button" data-mode="slot" aria-pressed="false">转盘</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="draw-stage" aria-labelledby="stageTitle">
+        <h2 class="sr-only" id="stageTitle">随机抽选区域</h2>
+
+        <aside class="round-summary">
+          <p class="eyebrow">ROUND STATUS</p>
+          <div class="remaining-stat">
+            <strong id="remainingCount">8</strong>
+            <span>位待抽</span>
+          </div>
+          <p class="drawn-stat"><strong id="drawnCount">0</strong> / <span id="totalCount">8</span> 已抽</p>
+          <div class="progress-track" aria-hidden="true">
+            <span id="roundProgress"></span>
+          </div>
+          <p class="pool-hint" id="poolHint">全班都在待抽池中</p>
+
+          <div class="privacy-note">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 10V7.75a5 5 0 0 1 10 0V10"></path>
+              <rect x="4.5" y="10" width="15" height="10" rx="2"></rect>
+              <path d="M12 14v2.5"></path>
+            </svg>
+            <p>照片只在本机浏览器中显示</p>
+          </div>
+        </aside>
+
+        <div class="center-stage">
+          <div class="visual-frame mode-scroll" id="visualFrame" data-mode="scroll">
+            <div class="frame-topline">
+              <span id="frameState">READY</span>
+              <span id="frameCounter">POOL 08</span>
+            </div>
+
+            <div class="presentation-stage scroll-view" id="scrollView">
+              <div class="portrait-shell" id="scrollPortrait"></div>
+              <div class="name-band">
+                <span class="name-band-rule" aria-hidden="true"></span>
+                <strong id="liveName">准备好了吗？</strong>
+              </div>
+            </div>
+
+            <div class="presentation-stage flip-view" id="flipView" hidden>
+              <div class="flip-card" id="flipCard">
+                <div class="flip-face flip-front">
+                  <div class="portrait-shell" id="flipPortraitFront"></div>
+                  <strong id="flipNameFront">准备好了吗？</strong>
+                </div>
+                <div class="flip-face flip-back">
+                  <div class="portrait-shell" id="flipPortraitBack"></div>
+                  <strong id="flipNameBack">准备好了吗？</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="presentation-stage slot-view" id="slotView" hidden>
+              <div class="slot-frame">
+                <div class="slot-rail-top" aria-hidden="true"></div>
+                <div class="slot-window">
+                  <div class="slot-track" id="slotTrack"></div>
+                  <span class="slot-guide" aria-hidden="true"></span>
+                </div>
+                <div class="slot-rail-bottom" aria-hidden="true"></div>
+              </div>
+              <div class="slot-name-display">
+                <span>LUCKY SLOT</span>
+                <strong id="slotName">准备好了吗？</strong>
+              </div>
+            </div>
+
+            <div class="frame-bottomline">
+              <span id="frameCaption">本地示例名单</span>
+              <span>LOCAL ONLY</span>
+            </div>
+          </div>
+
+          <div class="action-dock">
+            <button class="draw-button" id="drawButton" type="button">
+              <span class="draw-button-label" id="drawButtonLabel">开始点名</span>
+              <span class="draw-button-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M8 5.5 18 12 8 18.5v-13Z"></path>
+                </svg>
+              </span>
+            </button>
+            <p class="action-hint" id="actionHint">按下按钮，从 8 位同学中随机选择</p>
+          </div>
+        </div>
+
+        <aside class="history-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">SELECTED</p>
+              <h2>本轮结果</h2>
+            </div>
+            <span class="history-count" id="historyCount">0</span>
+          </div>
+          <div class="history-list" id="historyList">
+            <p class="history-empty">还没有抽选结果</p>
+          </div>
+          <button class="reset-button" id="resetButton" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 4v6h6"></path>
+              <path d="M5.5 15a7.5 7.5 0 1 0 .7-8.8L4 10"></path>
+            </svg>
+            <span>重置一轮</span>
+          </button>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="roster-bar">
+      <div class="roster-heading">
+        <p class="eyebrow">CLASS ROSTER</p>
+        <strong id="rosterSource">示例名单</strong>
+      </div>
+      <div class="roster-scroll" id="roster" aria-label="班级同学名单"></div>
+      <div class="roster-total">
+        <strong id="rosterCount">8</strong>
+        <span>位同学</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="winner-overlay" id="winnerOverlay" hidden aria-hidden="true">
+    <div class="celebration" id="confetti" aria-hidden="true"></div>
+    <section class="winner-card" role="dialog" aria-modal="true" aria-labelledby="winnerName">
+      <p class="winner-label"><span aria-hidden="true"></span> 本轮中奖 <span aria-hidden="true"></span></p>
+      <div class="winner-portrait" id="winnerPortrait"></div>
+      <div class="winner-copy">
+        <span class="winner-order" id="winnerOrder">NO. 01</span>
+        <h2 id="winnerName" tabindex="-1">同学</h2>
+        <p id="winnerMeta">本轮随机抽选结果</p>
+      </div>
+      <button class="continue-button" id="continueButton" type="button">
+        <span>继续点名</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12h14"></path>
+          <path d="m14 7 5 5-5 5"></path>
+        </svg>
+      </button>
+    </section>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
