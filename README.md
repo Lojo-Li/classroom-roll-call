@@ -194,8 +194,7 @@ window.crypto.getRandomValues(buffer)
 ├── style.css           # 深色大屏界面、响应式布局和动画
 ├── script.js           # 名单读取、随机抽选、去重和界面状态
 ├── README.md           # 项目说明
-└── docs/
-    └── preview.png     # README 界面截图
+└── preview.png         # README 界面截图
 ```
 
 真实学生照片不随项目代码上传。老师可以在自己的电脑上准备任意照片文件夹，然后在网页中选择它。
